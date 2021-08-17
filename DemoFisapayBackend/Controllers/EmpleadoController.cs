@@ -35,6 +35,21 @@ namespace DemoFisapayBackend.Controllers
             }
         }
 
+        // GET: api/<EmpleadoController>
+        [HttpGet("{filter}")]
+        public async Task<IActionResult> Get(string filter)
+        {
+            try
+            {
+                var listEmpleados = await _context.empleado.Where(x => x.Nombre.Contains(filter) || x.Cedula.Contains(filter)).ToListAsync();
+                return Ok(listEmpleados);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         // POST api/<EmpleadoController>
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Empleado empleado)
